@@ -1,5 +1,5 @@
 {
-    "mongoURI" : "mongodb+srv://user:user@cluster0.6dy1x.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "mongoURI" : "mongodb+srv://YoussefAdel:Youssef1552001@fortest.akw1p.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     "jwtSecret" : "mysecrettoken"
     
 }
