@@ -4,7 +4,7 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
-const { check, validationResult } = require("express-validator/check");
+const { check, validationResult } = require("express-validator");
 
 const User = require("../../models/User");
 
@@ -16,9 +16,9 @@ router.post(
   [
     check("name", "Name is required").not().isEmpty(),
     check("email", "please include a valid email").isEmail(),
-    check("password", "Please enter a password with atleast 6 chars").isLength({
-      min: 6,
-    }),
+    check("address","please enter valid address").not().isEmpty(),
+    check("phone","please enter your phone number (01*********) 11 digit phone number").isLength({min:11 , max:11}),
+    check("password", "Please enter a password with atleast 6 chars").isLength({min: 6}),
   ],
   async (req, res) => {
     const errors = validationResult(req);
