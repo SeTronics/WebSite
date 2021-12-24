@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const auth = require("../../middleware/auth");
 const Profile = require("../../models/profile");
 const User = require("../../models/User");
-const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 
 //@route        GET api/profile/me
@@ -44,7 +44,20 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { company, website, location, bio, status } = req.body;
+    const {
+      company,
+      website,
+      location,
+      bio,
+      status,
+      githubusername,
+      skills,
+      youtube,
+      facebook,
+      twitter,
+      instagram,
+      linkedin,
+    } = req.body;
 
     //build profile object
     const profileFields = {};
@@ -54,28 +67,17 @@ router.post(
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (status) profileFields.status = status;
-
-    res.send("Hello");
-
-    try {
-      let profile = await Profile.findOne({ user: req.user.id });
-      if (profile) {
-        profile = await Profile.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: profileFields },
-          { new: true }
-        );
-        return res.json(profile);
-      }
-
-      profile = new Profile(profileFields);
-      await profile.save();
-      return res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
+    if (githubusername) profileFields.githubusername = githubusername;
+    if (skills) {
+      profileFields.skills = skills.split(",").map((skill) => skill.trim());
     }
+    console.log(skills);
+    res.send("Hello");
   }
 );
+
+//@route        GET api/profile
+//@desc         GET all profiles
+//@acess        public
 
 module.exports = router;
